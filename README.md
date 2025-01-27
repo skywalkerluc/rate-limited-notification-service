@@ -11,7 +11,7 @@ This project implements a rate-limited notification service in C# with .NET Core
 
 ## How to run
 
-1. Clone the repository: `git clone <url_of_your_github_repository>`
+1. Clone the repository: `git clone git@github.com:skywalkerluc/rate-limited-notification-service.git`
 2. Navigate to the project folder: `cd RateLimitedNotificationService`
 3. Build the project: `dotnet build`
 4. Run the tests: `dotnet test`
