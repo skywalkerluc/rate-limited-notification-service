@@ -6,11 +6,16 @@ namespace NotificationService.Services
     public class NotificationServiceImpl : INotificationService
     {
         private readonly IGateway _gateway;
-        private readonly Dictionary<string, RateLimitRule> _rateLimitRules;
+        private Dictionary<string, RateLimitRule> _rateLimitRules;
         private readonly Dictionary<string, Dictionary<string, int>> _notificationCounts;
         public Dictionary<string, RateLimitRule> GetRateLimitRules()
         {
             return _rateLimitRules;
+        }
+
+        public void SetRateLimitRulesForTest(Dictionary<string, RateLimitRule> rules)
+        {
+            _rateLimitRules = rules;
         }
 
         public NotificationServiceImpl(IGateway gateway)
@@ -19,8 +24,8 @@ namespace NotificationService.Services
             _rateLimitRules = new Dictionary<string, RateLimitRule>
             {
                 { "status", new RateLimitRule { Limit = 2, TimeWindow = TimeSpan.FromMinutes(1) } },
-                { "news", new RateLimitRule { Limit = 1, TimeWindow = TimeSpan.FromDays(1) } },
-                { "marketing", new RateLimitRule { Limit = 3, TimeWindow = TimeSpan.FromHours(1) } }
+                { "news", new RateLimitRule { Limit = 1, TimeWindow = TimeSpan.FromHours(1) } },
+                { "marketing", new RateLimitRule { Limit = 3, TimeWindow = TimeSpan.FromDays(1) } }
             };
             _notificationCounts = new Dictionary<string, Dictionary<string, int>>();
         }
