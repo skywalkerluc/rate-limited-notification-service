@@ -4,7 +4,7 @@ namespace NotificationService.Gateways
     {
         public void Send(string userId, string message)
         {
-            Console.WriteLine($"Enviando mensagem para o usuário {userId}: {message}");
+            Console.WriteLine($"Sending a message to the user {userId}: {message}");
         }
     }
 }
