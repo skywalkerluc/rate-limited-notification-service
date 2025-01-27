@@ -1,3 +1,4 @@
+using NotificationService.Exceptions;
 using NotificationService.Gateways;
 using NotificationService.Models;
 
@@ -34,7 +35,7 @@ namespace NotificationService.Services
         {
             if (!_rateLimitRules.ContainsKey(type))
             {
-                throw new ArgumentException($"Tipo de notificação inválido: {type}");
+                throw new InvalidNotificationTypeException($"Invalid notification type: {type}");
             }
 
             var rule = _rateLimitRules[type];
@@ -66,7 +67,7 @@ namespace NotificationService.Services
             }
             else
             {
-                Console.WriteLine($"Limite de taxa excedido para o tipo de notificação: {type}");
+                throw new RateLimitExceededException($"Rate limit exceeded for this type of notification: {type}");
             }
         }
     }
