@@ -1,6 +1,7 @@
 using NotificationService.Exceptions;
 using NotificationService.Gateways;
 using NotificationService.Models;
+using Serilog;
 
 namespace NotificationService.Services
 {
@@ -33,8 +34,10 @@ namespace NotificationService.Services
 
         public void Send(string type, string userId, string message)
         {
+            Log.Information("Sending {Type} notifications to the user {UserId}", type, userId);
             if (!_rateLimitRules.ContainsKey(type))
             {
+                Log.Error($"Invalid notification type: {type}");
                 throw new InvalidNotificationTypeException($"Invalid notification type: {type}");
             }
 
@@ -64,9 +67,12 @@ namespace NotificationService.Services
                 _gateway.Send(userId, message);
                 _notificationCounts[key]["count"] = count + 1;
                 _notificationCounts[key]["lastSent"] = (int)now;
+
+                Log.Information("Notification sent successfully!");
             }
             else
             {
+                Log.Error($"Rate limit exceeded for this type of notification: {type}");
                 throw new RateLimitExceededException($"Rate limit exceeded for this type of notification: {type}");
             }
         }
